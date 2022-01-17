@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import "antd/dist/antd.css";
 import "./index.css";
-import { Input, Button, Space, Checkbox } from "antd";
+import { Input, Button, Space } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 
 export const getOverlayProps = (
   dataIndex,
   orderDirectionUpdater,
-  allValues
 ) => ({
   filterDropdown: ({
     setSelectedKeys,
@@ -23,7 +22,6 @@ export const getOverlayProps = (
         clearFilters,
         dataIndex,
         orderDirectionUpdater,
-        allValues
       }}
     />
   ),
@@ -44,9 +42,7 @@ const CustomOverlay = ({
   confirm,
   clearFilters,
   orderDirectionUpdater,
-  allValues
 }) => {
-  const [searchValue, setSearchValue] = useState("");
   return (
     <div style={{ padding: 8 }}>
       <Button
@@ -73,8 +69,8 @@ const CustomOverlay = ({
       </Button>
       <Input
         placeholder={`Search ${dataIndex}`}
-        value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
+        value={selectedKeys[0]}
+        onChange={(e) => setSelectedKeys([e.target.value])}
         style={{ marginBottom: 8, display: "block" }}
       />
       <Space>
@@ -108,21 +104,6 @@ const CustomOverlay = ({
           Filter
         </Button>
       </Space>
-      <div
-        style={{
-          maxWidth: "260px"
-        }}
-      >
-        <Checkbox.Group
-          options={allValues
-            .slice(0, 10)
-            .filter((d) => d?.toLowerCase().includes(searchValue?.toLowerCase()))}
-          defaultValue={selectedKeys}
-          onChange={(values) => {
-            setSelectedKeys(values);
-          }}
-        />
-      </div>
     </div>
   );
 };
